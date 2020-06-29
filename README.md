@@ -10,4 +10,21 @@ I will be adding all the details of this project within the next two weeks.
 5.A video demo of the project.
 
 # abstract
-# 
+# Intoduction
+  # background
+  # Project Plan
+# requirement Analysis
+  # requirement listing 
+  # requirement Specification
+  # requirement Standards
+# Project Design
+  # Conceptual Design
+  # Software Design
+  # User Interface Design
+  # Database Design
+  # Algorithm Design
+  # Hardware Design
+# Implementation
+# Testing and Verification
+# Conclusions and Future Work
+  # Difficulties & Challenges
