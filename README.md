@@ -11,13 +11,8 @@ For my teammate private reasons, he couldn’t continue to work on the project w
 4.Using the model to tell the robotic arm what the detected object is in order for it to place it into its correct location.
 5.A video demo of the project.
 
-  # Project Plan
-# requirement Analysis
-  # requirement listing 
-  # requirement Specification
-  # requirement Standards
-# Project Design
-  # Conceptual Design
+
+# Project Design # Conceptual Design
   
   There are three main modules in the project:
 a)	Power Module
@@ -32,11 +27,8 @@ The I/O module contains a camera for capturing pictures, an LCD Screen for displ
 	The Block diagram below shows the connection between the modules and their components. 
 
   # Software Design
-  # User Interface Design
-  # Database Design
   # Algorithm Design
   # Hardware Design
 # Implementation
 # Testing and Verification
 # Conclusions and Future Work
-  # Difficulties & Challenges
