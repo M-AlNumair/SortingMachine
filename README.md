@@ -26,7 +26,7 @@ c)	I/O Module
 The I/O module contains a camera for capturing pictures, an LCD Screen for displaying various critical instructions for the machine, buttons for control, top and pad lights for eliminating noise and color clarity in the pictures, and a robotic arm for sorting the objects. 
 	
 	The Block diagram below shows the connection between the modules and their components. 
-	![image](https://user-images.githubusercontent.com/63504289/104811552-6b1fd700-580d-11eb-8c36-b5667100e852.png)
+![image](https://user-images.githubusercontent.com/63504289/104811552-6b1fd700-580d-11eb-8c36-b5667100e852.png)
 
  ### 2. Hardware Design
   As a beginning I had few designs, one of them was to have the objects moving on a belt where at a certain position there is a video camera to identify objects and then it goes to a sorting mechanism. For the sorting mechanism I had two designs, the first one is that the belt will have different areas where in front of each one there is a box in which the object belonging to that area is pushed into the box, the second design was at the end of the belt there is a rotating tube that would rotate to the box which the object should go into and then the object would get dropped into that tube to reach the box (Figure 2).These designs were good enough to do the job but they were not approved by my teammate at that time and that is why I didn’t work on them. Finally, I reached to my final design where the object is placed in a certain area which is then picked by a robotic arm to be placed into an object recognition area before being moved into its final destination which is the exact box which it belongs to (Figure 3). 
