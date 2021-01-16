@@ -13,7 +13,7 @@ For my teammate private reasons, he couldn’t continue to work on the project w
 
 
 # Project Design 
-## Conceptual Design
+### 1.Conceptual Design
   
   There are three main modules in the project:
 a)	Power Module
@@ -27,9 +27,9 @@ The I/O module contains a camera for capturing pictures, an LCD Screen for displ
 	
 	The Block diagram below shows the connection between the modules and their components. 
 
-  # Software Design
-  # Algorithm Design
-  # Hardware Design
+  ### 2. Software Design
+  ### 3. Algorithm Design
+  ### 4. Hardware Design
 # Implementation
 # Testing and Verification
 # Conclusions and Future Work
