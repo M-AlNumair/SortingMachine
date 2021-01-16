@@ -69,6 +69,48 @@ A magnetic solenoid was specifically chosen for project as the objects that I ha
 After my initial testing of capturing images of the objects I encounter two main issue within the initial design. The first one was that there is too much noise surrounding the objects and thus it makes it very hard to use edge detection for recognizing objects that is why the pad light was necessary to remove all the noise within the area surrounding an object. The second issue was with different light conditions the color of the abject may be different each time and so I wanted to provide enough top light directed to the objects in which the environment lighting conditions doesn’t affect the recognition of the objects.  
 
   ### 2. Software Design
+  I designed the software to have one main script and 3 classes as follows: 
+1.	A Main script that works as follows: 
+
+1.	When the script starts the first thing it checks is whether the Deep learning model is loaded or not, if it doesn’t load then it will stop otherwise it will continue.
+
+2.	It will then check if the serial connection has been established with the Arduino, again here if the connection is not established then it will stop otherwise will continue. 
+
+3.	Now that everything is loaded and connected it will initialize the robotic arm in the ready position and start initialize the conditional variable needed for the different states of the machine. 
+
+4.	Now the scrip will enter a while(true) loop (infinite loop) that will only be exited if shutdown sequence is detected. 
+
+5.	Inside the loop we are waiting for a button to be pressed either the start or the pause buttons.
+
+
+A.	If start button is pressed then we have to conditions: either it is the first time the machine is run and we want to print ( starting) on the LCD display, or the machine is already started and have been paused and we want to print (Resuming) on the LCD display 
+B.	If pause button is pressed, we want to set the conditional variable of the machine to tell it that it is paused and shouldn’t do anything until it is started again. 
+
+6.	Next, we check if the machine is already started and haven’t been paused ? 
+
+A.	if no then it means the machine is paused and we have two conditions: either it’s the first time to be paused after being at work and we want to print paused on the display and set the machine in the waiting position Or the machine have been paused and waiting already and the pause button was pressed again which activates a shutdown and thus we want to break out of the loop. 
+B.	If yes then we want to take care of the arm position between base position, detection positions and object sorting location. 
+
+7.	After a position have been determined we tell the Arduino exactly how we want the arm to move 
+
+8.	After moving the arm to the desired location, we check the detection condition:
+
+A.	if it is true then we want to take a picture then preprocess it and prepare it then feed it into our model:
+
+o	if the model predicts an object correctly then we want to set the detection condition to false and print the object name on the LCD display. 
+o	if there was an exception then it means that there is no object on the pad and we want to pause the machine. 
+
+B.	If it is False then we do nothing. 
+
+9.	Next, we check if grab object condition is true: 
+
+A.	If True then we need to tell the Arduino to send a high voltage to the end-effector. 
+B.	If False then we will tell the Arduino to send a low voltage to the end-effector. 
+
+10.	The loop then starts again.
+
+The Flow Chart below demonstrates the main script 
+
   ### 3. Algorithm Design
  
 # Implementation
