@@ -70,53 +70,56 @@ After my initial testing of capturing images of the objects I encounter two main
 
   ### 2. Software Design
   I designed the software to have one main script and 3 classes as follows: 
-1.	A Main script that works as follows: 
+#### 1.	A Main script that works as follows: 
 
-1.	When the script starts the first thing it checks is whether the Deep learning model is loaded or not, if it doesn’t load then it will stop otherwise it will continue.
+	1.	When the script starts the first thing it checks is whether the Deep learning model is loaded or not, if it doesn’t load then it will stop otherwise it will continue.
+	![image](https://user-images.githubusercontent.com/63504289/104811774-f057bb80-580e-11eb-80c8-9a17969a6ae0.png)
 
-2.	It will then check if the serial connection has been established with the Arduino, again here if the connection is not established then it will stop otherwise will continue. 
+	2.	It will then check if the serial connection has been established with the Arduino, again here if the connection is not established then it will stop otherwise will continue. 
+	![image](https://user-images.githubusercontent.com/63504289/104811777-f5b50600-580e-11eb-9eea-a1e0320216f5.png)
 
-3.	Now that everything is loaded and connected it will initialize the robotic arm in the ready position and start initialize the conditional variable needed for the different states of the machine. 
+	3.	Now that everything is loaded and connected it will initialize the robotic arm in the ready position and start initialize the conditional variable needed for the different states of the machine. 
+	![image](https://user-images.githubusercontent.com/63504289/104811781-fd74aa80-580e-11eb-961e-8e65c454ce31.png)
 
-4.	Now the scrip will enter a while(true) loop (infinite loop) that will only be exited if shutdown sequence is detected. 
+	4.	Now the scrip will enter a while(true) loop (infinite loop) that will only be exited if shutdown sequence is detected. 
 
-5.	Inside the loop we are waiting for a button to be pressed either the start or the pause buttons.
+	5.	Inside the loop we are waiting for a button to be pressed either the start or the pause buttons.
 
 
-A.	If start button is pressed then we have to conditions: either it is the first time the machine is run and we want to print ( starting) on the LCD display, or the machine is already started and have been paused and we want to print (Resuming) on the LCD display 
-B.	If pause button is pressed, we want to set the conditional variable of the machine to tell it that it is paused and shouldn’t do anything until it is started again. 
+		A.	If start button is pressed then we have to conditions: either it is the first time the machine is run and we want to print ( starting) on the LCD display, or the machine is already started and have been paused and we want to print (Resuming) on the LCD display 
+		B.	If pause button is pressed, we want to set the conditional variable of the machine to tell it that it is paused and shouldn’t do anything until it is started again. 
 
-6.	Next, we check if the machine is already started and haven’t been paused ? 
+	6.	Next, we check if the machine is already started and haven’t been paused ? 
 
-A.	if no then it means the machine is paused and we have two conditions: either it’s the first time to be paused after being at work and we want to print paused on the display and set the machine in the waiting position Or the machine have been paused and waiting already and the pause button was pressed again which activates a shutdown and thus we want to break out of the loop. 
-B.	If yes then we want to take care of the arm position between base position, detection positions and object sorting location. 
+		A.	if no then it means the machine is paused and we have two conditions: either it’s the first time to be paused after being at work and we want to print paused on the display and set the machine in the waiting position Or the machine have been paused and waiting already and the pause button was pressed again which activates a shutdown and thus we want to break out of the loop. 
+		B.	If yes then we want to take care of the arm position between base position, detection positions and object sorting location. 
 
-7.	After a position have been determined we tell the Arduino exactly how we want the arm to move 
+	7.	After a position have been determined we tell the Arduino exactly how we want the arm to move 
 
-8.	After moving the arm to the desired location, we check the detection condition:
+	8.	After moving the arm to the desired location, we check the detection condition:
 
-A.	if it is true then we want to take a picture then preprocess it and prepare it then feed it into our model:
+		A.	if it is true then we want to take a picture then preprocess it and prepare it then feed it into our model:
 
-o	if the model predicts an object correctly then we want to set the detection condition to false and print the object name on the LCD display. 
-o	if there was an exception then it means that there is no object on the pad and we want to pause the machine. 
+			o	if the model predicts an object correctly then we want to set the detection condition to false and print the object name on the LCD display. 
+			o	if there was an exception then it means that there is no object on the pad and we want to pause the machine. 
 
-B.	If it is False then we do nothing. 
+		B.	If it is False then we do nothing. 
 
-9.	Next, we check if grab object condition is true: 
+	9.	Next, we check if grab object condition is true: 
 
-A.	If True then we need to tell the Arduino to send a high voltage to the end-effector. 
-B.	If False then we will tell the Arduino to send a low voltage to the end-effector. 
+		A.	If True then we need to tell the Arduino to send a high voltage to the end-effector. 
+		B.	If False then we will tell the Arduino to send a low voltage to the end-effector. 
 
-10.	The loop then starts again.
+	10.	The loop then starts again.
 
 The Flow Chart below demonstrates the main script 
 ![image](https://user-images.githubusercontent.com/63504289/104811684-4710c580-580e-11eb-8a17-1c00f503b1ce.png)
 
-2.	A Class for capturing images: (Look at capture.py)
+#### 2.	A Class for capturing images: (Look at capture.py)
 
-3.	A class for preprocessing and preparing the images before feeding them to the model: (Look at processing.py)
+#### 3.	A class for preprocessing and preparing the images before feeding them to the model: (Look at processing.py)
 
-4.	A class that holds the name and position of the predicted objects: (Look at positions.py)
+#### 4.	A class that holds the name and position of the predicted objects: (Look at positions.py)
 
   ### 3. Algorithm Design
   There are 3 main states that the arm takes while moving the objects as follows:
