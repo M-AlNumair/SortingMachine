@@ -110,8 +110,60 @@ B.	If False then we will tell the Arduino to send a low voltage to the end-effec
 10.	The loop then starts again.
 
 The Flow Chart below demonstrates the main script 
+![image](https://user-images.githubusercontent.com/63504289/104811684-4710c580-580e-11eb-8a17-1c00f503b1ce.png)
+
+2.	A Class for capturing images: (Look at capture.py)
+
+3.	A class for preprocessing and preparing the images before feeding them to the model: (Look at processing.py)
+
+4.	A class that holds the name and position of the predicted objects: (Look at positions.py)
 
   ### 3. Algorithm Design
+  There are 3 main states that the arm takes while moving the objects as follows:
+1.	There is nothing on the pad being detected and we want to pick the object from the base to the pad . 
+2.	There is an object on the pad that we need to detect and a new object on the pad that needs to be picked for detection. 
+3.	There are two objects on the pad one of which finished detection and needs to be sorted. 
+
+To handle the position of the arm between the three states we check the states of the currentPosition and nextPosition variables which are initialized to “pick first” and “drop first”. One thing to note is that there two positions for detection and “first” & “second” in the currentPosition or nextPosition means an object to be dropped in first or second detection locations unless stated otherwise. There are six conditional arguments to handle the arm between the three states and they work as follows: 
+
+1.	If the currentPosition is “pick first” then we check if the nextPosition is “drop first” or “drop detected” ? 
+
+o	If True then it means that either we don’t have any object on the pad or there is an object that has been detected and needs to be sorted. In both cases we want to move to the base to grab an object and drop it in the pad for detection by changing the currentPosition to “drop first”
+
+o	If False then it means that both detection locations are occupied and we need to sort the object that has been detected already before we pick a new object. And we do this by changing the currentPosition to “drop detected” 
+
+2.	If the currentPosition is “drop first” then it means we already picked an object that we want to drop in the first detection location and we do so. Then we check if the nextPosition is “drop first” ? 
+
+o	If yes then it means that we finished dropping it then and we want to set the currentPosition to “detect” as we want to detect the object that we have just dropped as well as setting the nextPosition to “pick second” so that we pick another object for detection. 
+
+o	If No then it means we already finished detecting the object and we want to set the currentPosition to “pick second”
+
+3.	If the currentPosition is “detect” then it means the pad now only has one object and we want to detect it and we want to pick a second object for detection. First, we will move the arm to the base for picking a second object and the detect variable will be set to “true”. Next, we check the nextPosition :
+
+o	If it is “pick second” then it means we are going to detect an object in the first detecting location and we want to pick a second object. So, we set currentPosition to “pick second”
+
+o	If it is not then it means that either we just sorted an object that was in the first detection location or in the second and we need to check the nextPosition to determine that: 
+-	If the nextPosition is “detect first” then it means that we just sorted an object that was in the second location and we want to pick another object to be dropped in the same location. So, we will set the currentPosition to “ pick second” and nextPosition to “drop second” .
+
+-	If it is not then it means that we just sorted and object that was in the first location. So, we set currentPosition to “pick first” and the nextPosition to “drop detected”.
+
+4.	If the currentPosition is “pick second” then we want to check weather nextPosition is “detect first” ?
+
+o	If yes then means that we have actually already dropped an object in the second location and second here means “a second object”  that should be dropped in the first detection location so we want to move to the base position to pick an object then we will set the currentPosition to “detect” so that we detect the object in the first detection location and nextPosition to “pick first”. 
+
+o	If No then we want to cheack if the nextposition is “drop detected” ? 
+
+-	If yes then it means that both detecting locations are full and we want to take the object in the second detection location to its sorting location and set currentPosition to “drop detected” and nextPosition to “detect first”  
+
+-	If No then it means that an object in the first detection location has been detected and we want to drop a new object in the second detection location then handle sort the detected object. So, we pick the new object then we set the currentPosition to “drop second” and the nextPosition to “detect second”
+
+5.	If the currentPosition is “drop second” then we want to move to second detection location and drop the object in hand then set current position to “pick first” 
+
+6.	If the currentPosition is “drop detected” then it means that we already picked an object that has been detected and so we need to move to its sorting location and drop it then we will set currentPosition to “detect” so that we detect the object that is in the pad currently. 
+
+Figure 5 below contains a chart of the previous steps 
+![image](https://user-images.githubusercontent.com/63504289/104811736-aa9af300-580e-11eb-8a2c-3501a0f729ef.png)
+
  
 # Implementation
 # Testing and Verification
