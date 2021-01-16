@@ -12,7 +12,8 @@ For my teammate private reasons, he couldn’t continue to work on the project w
 5.A video demo of the project.
 
 
-# Project Design # Conceptual Design
+# Project Design 
+## Conceptual Design
   
   There are three main modules in the project:
 a)	Power Module
