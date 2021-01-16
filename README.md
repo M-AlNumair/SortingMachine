@@ -73,13 +73,13 @@ After my initial testing of capturing images of the objects I encounter two main
 #### 1.	A Main script that works as follows: 
 
 	1.	When the script starts the first thing it checks is whether the Deep learning model is loaded or not, if it doesn’t load then it will stop otherwise it will continue.
-	![image](https://user-images.githubusercontent.com/63504289/104811774-f057bb80-580e-11eb-80c8-9a17969a6ae0.png)
+![image](https://user-images.githubusercontent.com/63504289/104811774-f057bb80-580e-11eb-80c8-9a17969a6ae0.png)
 
 	2.	It will then check if the serial connection has been established with the Arduino, again here if the connection is not established then it will stop otherwise will continue. 
-	![image](https://user-images.githubusercontent.com/63504289/104811777-f5b50600-580e-11eb-9eea-a1e0320216f5.png)
+![image](https://user-images.githubusercontent.com/63504289/104811777-f5b50600-580e-11eb-9eea-a1e0320216f5.png)
 
 	3.	Now that everything is loaded and connected it will initialize the robotic arm in the ready position and start initialize the conditional variable needed for the different states of the machine. 
-	![image](https://user-images.githubusercontent.com/63504289/104811781-fd74aa80-580e-11eb-961e-8e65c454ce31.png)
+![image](https://user-images.githubusercontent.com/63504289/104811781-fd74aa80-580e-11eb-961e-8e65c454ce31.png)
 
 	4.	Now the scrip will enter a while(true) loop (infinite loop) that will only be exited if shutdown sequence is detected. 
 
